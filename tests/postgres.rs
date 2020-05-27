@@ -23,6 +23,14 @@ async fn it_connects() -> anyhow::Result<()> {
 
 #[cfg_attr(feature = "runtime-async-std", async_std::test)]
 #[cfg_attr(feature = "runtime-tokio", tokio::test)]
+async fn it_pings() -> anyhow::Result<()> {
+    let mut conn = new::<Postgres>().await?;
+    conn.ping().await?;
+    Ok(())
+}
+
+#[cfg_attr(feature = "runtime-async-std", async_std::test)]
+#[cfg_attr(feature = "runtime-tokio", tokio::test)]
 async fn it_executes() -> anyhow::Result<()> {
     let mut conn = new::<Postgres>().await?;
 

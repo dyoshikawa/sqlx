@@ -292,6 +292,8 @@ impl Connection for PgConnection {
     }
 
     fn ping(&mut self) -> BoxFuture<crate::Result<()>> {
-        Box::pin(Executor::execute(self, "SELECT 1").map_ok(|_| ()))
+        // by sending a comment this shouldn't actually cause any processing on the server
+        // sending a query might cause an error in the wrong context
+        Box::pin(Executor::execute(self, "-- PgConnection::ping()").map_ok(|_| ()))
     }
 }
